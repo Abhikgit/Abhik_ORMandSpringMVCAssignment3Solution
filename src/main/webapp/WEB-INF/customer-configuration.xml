@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/context
+    	http://www.springframework.org/schema/context/spring-context.xsd
+    	http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+>
+
+<context:component-scan 
+base-package="Customer_Relationship_Management.controller" />
+
+<bean
+class="org.springframework.web.servlet.view.internalresourcseViewResolver">
+<property name="prefix" value="/WEB-INF/VIEWS/" />
+<property name="suffix" value=".jsp" />
+
+</bean> 
+<bean
+class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+id="mysqlDatasource">
+<property name="driverClassName"
+value="com.mysql.jdbc.Driver"></property>
+<property name="url"
+value="jdbc:mysql://localhost:3306/customermanagement2"></property>
+<property name="username" value="test_abhik"></property>
+<property name="password" value="test@12345"></property>
+</bean>
+
+<bean id="sessionFactory"
+class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+<property name="dataSource" ref="mysqlDataSource"></property>
+<property name="annotatedClasses"> 
+<list>
+<value>Customer_Relationship_Management.entity.customer</value>
+</list>
+</property>
+<property name="hibernateProperties">
+<props>
+<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+<prop key="hibernate.show_sql">true</prop>
+<prop key="hibernate.hbm2ddl.auto">update</prop>
+</props>
+
+</property>
+
+</bean>
+<bean id="myTransactionManager"
+class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+<property name="sessionFactory" ref="sessionFactory" />
+</bean> 
+</beans>
+
+
